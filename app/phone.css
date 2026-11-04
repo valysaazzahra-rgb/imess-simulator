@@ -1,0 +1,158 @@
+/* ====== iMessage preview (gaya iOS 26) ====== */
+.phone {
+  position: relative;
+  width: var(--w);
+  min-height: var(--h);
+  overflow: hidden;
+  color: #fff;
+  font-family: "Inter Variable", -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: -0.2px;
+  user-select: none;
+}
+.phone.screen { height: var(--h); }
+.phone.scrollable { height: var(--h); min-height: var(--h); overflow: hidden; }
+.phone.scrollable.full-bleed { width: 100%; height: 100%; min-height: 0; }
+.phone .wp { position: absolute; inset: 0; }
+.phone .grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-size: 180px 180px;
+}
+
+.phone .msgs {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.phone.screen .msgs {
+  position: absolute;
+  inset: 0;
+  justify-content: flex-end;
+  padding: 104px 0 76px;
+  overflow: hidden;
+}
+.phone.long .msgs {
+  justify-content: flex-end;
+  padding: 112px 0 80px;
+  min-height: var(--h);
+}
+.phone.scrollable .msgs {
+  position: absolute;
+  inset: 0;
+  justify-content: flex-start;
+  padding: 112px 0 80px;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.phone.scrollable.full-bleed .msgs { min-height: 0; }
+.phone .msgs > * { flex-shrink: 0; }
+
+/* ---- header ---- */
+.hdr { position: absolute; top: 0; left: 0; right: 0; height: 104px; z-index: 5; pointer-events: none; }
+.glass {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.02)), var(--glass);
+  border: 1px solid var(--glass-border);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 2px 10px rgba(0, 0, 0, 0.06);
+}
+.circ { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; }
+.hdr .back { position: absolute; left: 20px; top: 12px; }
+.hdr .vid { position: absolute; right: 20px; top: 12px; }
+.hdr .ctr { position: absolute; left: 0; right: 0; top: 11px; display: flex; flex-direction: column; align-items: center; }
+.pfp {
+  width: 60px; height: 60px; border-radius: 50%; overflow: hidden; display: grid; place-items: center;
+  background: linear-gradient(180deg, #a5abb9, #7d8391);
+  font-size: 24px; font-weight: 600; color: #fff;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25);
+}
+.pfp img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pill {
+  margin-top: -4px; height: 30px; padding: 0 11px 0 14px; border-radius: 15px;
+  display: flex; align-items: center; gap: 4px; font-size: 15px; font-weight: 600; position: relative;
+  max-width: 220px; white-space: nowrap;
+}
+.pill span { overflow: hidden; text-overflow: ellipsis; }
+.pill i { display: grid; place-items: center; opacity: 0.55; font-style: normal; }
+.group-members { max-width: 260px; overflow: hidden; color: rgba(255,255,255,.72); font-size: 10px; line-height: 12px; text-overflow: ellipsis; white-space: nowrap; text-shadow: 0 1px 4px rgba(0,0,0,.45); }
+
+/* ---- input bar ---- */
+.bar { position: absolute; left: 28px; right: 28px; bottom: 12px; display: flex; gap: 12px; align-items: center; z-index: 5; }
+.bar .plus { width: 42px; height: 42px; flex: none; }
+.field {
+  flex: 1; height: 42px; border-radius: 21px; padding: 0 14px 0 18px;
+  display: flex; align-items: center; justify-content: space-between; font-size: 17px;
+}
+
+/* ---- pesan ---- */
+.ts { align-self: center; font-size: 12px; color: var(--meta); margin: 16px 0 8px; letter-spacing: 0; }
+.ts b { font-weight: 600; }
+
+.row { display: flex; flex-direction: column; padding: 0 20px; }
+.row.me { align-items: flex-end; }
+.row.them { align-items: flex-start; }
+.row.inner { padding: 0; flex: none; }
+
+.bw { position: relative; max-width: 300px; }
+.b {
+  position: relative; padding: 8px 14px; border-radius: 19px; font-size: 17px; line-height: 21px;
+  white-space: pre-wrap; overflow-wrap: anywhere; background: var(--bubble); color: var(--btext);
+}
+.bw.me .b { background: var(--me); color: #fff; }
+
+.photo { display: block; width: 264px; max-height: 420px; object-fit: cover; border-radius: 24px; background: var(--bubble); }
+.bw.me .photo { background: var(--me); }
+
+.tail { position: absolute; bottom: 0; width: 20px; height: 18px; fill: var(--bubble); }
+.bw.me .tail { right: -6px; fill: var(--me); }
+.bw.them .tail { left: -6px; transform: scaleX(-1); }
+
+.st { font-size: 12px; color: var(--meta); margin-top: 4px; padding: 0 2px; letter-spacing: 0; }
+.st b { font-weight: 600; }
+.st.me { align-self: flex-end; }
+.st.them { align-self: flex-start; }
+
+.rc {
+  display: flex; align-items: center; gap: 3px; font-size: 13px; font-weight: 600; color: var(--link);
+  margin-top: 4px; text-shadow: 0 0 8px rgba(0, 0, 0, 0.12); letter-spacing: 0;
+}
+.rc.them { margin-left: 20px; }
+.rc.me { margin-right: 14px; }
+
+/* ---- reply ---- */
+.rwrap { display: flex; flex-direction: column; }
+.qrow { display: flex; padding: 0 20px; }
+.qrow.me { justify-content: flex-end; }
+.q {
+  font-size: 13px; line-height: 16px; padding: 6px 11px; border-radius: 15px; background: var(--bubble); color: var(--btext);
+  max-width: 230px; white-space: pre-wrap; overflow-wrap: anywhere;
+}
+.q.me { background: var(--me); color: #fff; }
+.qimg { width: 72px; height: 96px; padding: 0; object-fit: cover; border-radius: 14px; display: block; }
+.rrow { display: flex; padding: 0 20px; align-items: flex-start; }
+.rrow.me { flex-direction: row-reverse; }
+.rrow .curve { flex: none; margin: 2px 0 0 14px; }
+.rrow.me .curve { margin: 2px 14px 0 0; transform: scaleX(-1); }
+.rrow .sp { flex: 1; }
+.rrow .row.inner { margin-top: 12px; }
+.rrow .row.inner.me { margin-left: 0; }
+
+/* ---- tapback ---- */
+.rx { position: absolute; top: -20px; display: flex; z-index: 3; }
+.bw.them .rx { right: -18px; flex-direction: row-reverse; }
+.bw.me .rx { left: -13px; }
+.bw.me .rx .rxb + .rxb { margin-left: -8px; }
+.bw.them .rx .rxb + .rxb { margin-left: 0; margin-right: -8px; }
+.rxb {
+  position: relative; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center;
+  box-shadow: 0 0 0 2.5px rgba(255, 255, 255, 0.5); color: #fff;
+}
+.rxb.me { background: var(--me); }
+.rxb.them { background: var(--bubble); }
+.rxb::before, .rxb::after { content: ""; position: absolute; border-radius: 50%; background: inherit; }
+.rxb::before { width: 9px; height: 9px; bottom: -3px; }
+.rxb::after { width: 5px; height: 5px; bottom: -9px; }
+.bw.them .rxb::before { left: -2px; } .bw.them .rxb::after { left: -7px; }
+.bw.me .rxb::before { right: -2px; } .bw.me .rxb::after { right: -7px; }
+.rx-txt { font-weight: 800; color: #fff; letter-spacing: 0; display: block; }
