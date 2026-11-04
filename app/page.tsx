@@ -6,6 +6,14 @@ import Phone from "@/components/Phone";
 import { defaultState, uid, type AppState, type ChatDraft } from "@/lib/types";
 
 const KEY = "imessage-sim:v1";
+const starterMessages = ["", "stunning", "jadi ke sency?", "gitu doang?", "you look amazing bb", "jadi :D"];
+
+function isStarterExample(state: AppState) {
+  return state.contact?.name === "RD"
+    && state.messages?.length === starterMessages.length
+    && state.messages.every((message, index) => message.text === starterMessages[index])
+    && state.messages[0].kind === "image";
+}
 
 export default function Page() {
   const [chats, setChats] = useState<ChatDraft[]>(() => [{ id: uid(), group: false, participants: [], state: defaultState() }]);
@@ -27,11 +35,14 @@ export default function Page() {
       if (raw) {
         const saved = JSON.parse(raw);
         if (Array.isArray(saved.chats) && saved.chats.length) {
-          setChats(saved.chats);
-          setActiveId(saved.activeId && saved.chats.some((chat: ChatDraft) => chat.id === saved.activeId) ? saved.activeId : saved.chats[0].id);
+          const restored = saved.chats.filter((chat: ChatDraft) => !isStarterExample(chat.state));
+          const nextChats = restored.length ? restored : [{ id: uid(), group: false, participants: [], state: defaultState() }];
+          setChats(nextChats);
+          setActiveId(saved.activeId && nextChats.some((chat: ChatDraft) => chat.id === saved.activeId) ? saved.activeId : nextChats[0].id);
         } else {
           const id = uid();
-          setChats([{ id, group: false, participants: [], state: { ...defaultState(), ...saved } }]);
+          const savedState = { ...defaultState(), ...saved } as AppState;
+          setChats([{ id, group: false, participants: [], state: isStarterExample(savedState) ? defaultState() : savedState }]);
           setActiveId(id);
         }
       }

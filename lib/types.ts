@@ -79,34 +79,11 @@ export const REACTIONS: { id: Reaction; label: string }[] = [
   { id: "question", label: "❓ Question" },
 ];
 
-/** Placeholder foto (SVG) — user bisa ganti dengan foto sendiri. */
-export const PLACEHOLDER_PHOTO =
-  "data:image/svg+xml;utf8," +
-  encodeURIComponent(
-    `<svg xmlns='http://www.w3.org/2000/svg' width='528' height='704' viewBox='0 0 528 704'>
-      <defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'>
-        <stop offset='0' stop-color='#b9a79c'/><stop offset='.5' stop-color='#8d6f66'/><stop offset='1' stop-color='#5c4440'/>
-      </linearGradient></defs>
-      <rect width='528' height='704' fill='url(#g)'/>
-      <g fill='none' stroke='rgba(255,255,255,.85)' stroke-width='14' stroke-linecap='round' stroke-linejoin='round'>
-        <rect x='184' y='290' width='160' height='124' rx='22'/>
-        <circle cx='264' cy='352' r='34'/>
-        <path d='M226 290l12-24h52l12 24'/>
-      </g>
-    </svg>`
-  );
-
 export const defaultState = (): AppState => {
-  const m1 = newMsg({ from: "me", kind: "image", image: PLACEHOLDER_PHOTO, showTime: true, day: "Today", time: "19.48" });
-  const m2 = newMsg({ from: "them", text: "stunning" });
-  const m3 = newMsg({ from: "them", text: "jadi ke sency?" });
-  const m4 = newMsg({ from: "me", text: "gitu doang?", replyTo: m2.id });
-  const m5 = newMsg({ from: "them", text: "you look amazing bb", reactions: { me: "heart" } });
-  const m6 = newMsg({ from: "me", text: "jadi :D", replyTo: m3.id, status: "Delivered" });
   return {
-    contact: { name: "RD", service: "imessage", showVideo: true, showInput: true },
+    contact: { name: "", service: "imessage", showVideo: true, showInput: true },
     wallpaper: { themeId: "rose", grain: true },
-    messages: [m1, m2, m3, m4, m5, m6],
+    messages: [],
     frame: "screen",
     screenW: 414,
     screenH: 843,
